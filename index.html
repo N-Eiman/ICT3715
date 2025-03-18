@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Book A Locker</title>
+    <style>
+      body {
+        background-image: url(locker.jpg);
+        background-size: cover;
+        background-color: #fff;
+        color: rgb(44, 50, 51);
+        font-size: 15px;
+      }
+
+      h1,
+      h2 {
+        text-align: center;
+        color: rgb(43, 70, 73);
+        font-family: monospace;
+        
+      }
+
+      .registration {
+        display: block;
+        max-width: 600px;
+        background: rgba(67, 149, 159, 0.8);
+        margin: 20px auto;
+        height: 500px;
+        padding: 100px;
+        border-radius: 20px;
+        font-family: monospace;
+      }
+
+      label {
+        color: #000;
+        font-size: 20px;
+      }
+
+      
+      .text-input {
+        width: 300px;
+        height: 30px;
+        font-size: 15px;
+      }
+
+      option {
+        font-family: monospace;
+        font-size: 20px;
+      }
+
+      .button {
+        padding: 10px 40px;
+        background-color: rgb(48, 82, 87);
+        border-radius: 10px;
+        transition: all 150ms ease-in-out;
+        margin: 20px auto;
+        color: #fff;
+      }
+      .button:hover {
+        transform: scale(1.5);
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Locker Registration Form</h1>
+      <h2>Parents information</h2>
+      <form class="registration">
+        <label for="name">Name :</label><br />
+        <input
+          type="text"
+          id="name"
+          name="name"
+          placeholder="Please Enter your name"
+          required
+          class="text-input"
+        /><br /><br />
+        <label for="sname">Surname :</label><br />
+        <input
+          type="text"
+          id="sname"
+          name="sname"
+          placeholder="Please Enter your Surname"
+          required
+          class="text-input"
+        /><br /><br />
+        <label for="language">Language of Preference :</label><br /><br />
+        <input
+          type="radio"
+          id="language"
+          name="english"
+          value="English"
+        />English
+
+        <input
+          type="radio"
+          id="language"
+          name="afrikaans"
+          value="Afrikaans"
+        />Afrikaans
+
+        <br /><br />
+        <label for="locker">Locker Block :</label>
+        <select name="locker" id="locker">
+          <option>--Select Block--</option>
+          <option value="A">A</option>
+          <option value="B">B</option>
+          <option value="C">C</option>
+          <option value="D">D</option>
+          <option value="E">E</option>
+          <option value="F">F</option>
+        </select>
+
+        <br /><br />
+
+        <label for="locker-position">Locker-Position</label><br /><br />
+        <input
+          type="checkbox"
+          id="locker-position"
+          name="bottom"
+          value="Bottom"
+        />Bottom <br /><br />
+        <input
+          type="checkbox"
+          id="locker-position"
+          name="middle"
+          value="Middle"
+        />Middle <br /><br />
+        <input type="checkbox" id="locker-position" name="top" value="Top" />Top
+
+        <br />
+        <br />
+        <label for="quantity">Quantity</label><br /><br />
+        <input type="checkbox" id="quantity" name="1" />1
+        <input type="checkbox" id="quantity" name="2" />2
+        <input type="checkbox" id="quantity" name="3" />3
+
+        <br /><br /><br />
+        <div class="buttons">
+          <input type="submit" value="Register" class="button" />
+          <button type="reset" class="button">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>
