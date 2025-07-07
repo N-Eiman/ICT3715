@@ -30,6 +30,8 @@ A responsive and stylish HTML-based registration form that allows parents to boo
 |------------|--------------------------------|
 | `HTML5`    | Structuring web content        |
 | `CSS3`     | Styling and page layout        |
+| `PHP`      | DB connections and automation  |
+| `Boostrap` | Styling and page layout        |
 
 ---
 
