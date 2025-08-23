@@ -13,11 +13,14 @@ A responsive and stylish HTML-based registration form that allows parents to boo
 ## 🧰 **Features**
 
 - 👨‍👩‍👧‍👦 **Parents Information** section  
-- 🌍 **Language Preference** selection (English or Afrikaans)  
-- 🗄️ **Locker Block & Position** options  
-- 🔢 **Locker Quantity** selection  
+- 🌍 **Parents login**  
+- 🗄️ **Parents dashboard** options  
+- 🔢 **Parents student registration and application**  
 - ✅ Interactive **Submit** and **Cancel** buttons with smooth hover effects  
 - 🖼️ Background image and elegant layout using CSS
+- 🎇 Admins login and dashboard
+- *️⃣ Admin able to view and print reports
+- 🫱 Elegant styling for admin pages
 
 ---
 
@@ -27,6 +30,8 @@ A responsive and stylish HTML-based registration form that allows parents to boo
 |------------|--------------------------------|
 | `HTML5`    | Structuring web content        |
 | `CSS3`     | Styling and page layout        |
+| `PHP`      | DB connections and automation  |
+| `Boostrap` | Styling and page layout        |
 
 ---
 
