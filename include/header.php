@@ -11,14 +11,51 @@
     />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="../styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>Book A Locker</title>
+    <style>
+      body::before {
+        content: "";
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(0, 0, 0, 0.4);
+        z-index: 0;
+      }
+      nav.navbar {
+        background: rgba(160, 0, 93, 0.9);
+        backdrop-filter: blur(4px);
+        padding: 0.8rem 1rem;
+        z-index: 2;
+      }
+      nav.navbar .navbar-brand {
+        font-weight: 600;
+        color: #fff;
+      }
+
+      nav.navbar .nav-link {
+        color: #f8d7da;
+        transition: color 0.3s ease;
+      }
+
+      nav.navbar .nav-link:hover {
+        color: #ffd700;
+      }
+      footer {
+        background: rgba(160, 0, 93, 0.9);
+        text-align: center;
+        padding: 10px;
+        font-size: 0.9rem;
+        z-index: 2;
+      }
+    </style>
 
     <?php
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 ?>
-<nav class="navbar navbar-expand-lg m-0" style="background-color: #a0005d; color: #f8d7da;;" fixed-top shadow">
+<nav class="navbar navbar-expand-lg m-0" fixed-top shadow">
   <div class="container-fluid">
     <a class="navbar-brand" href="/index.php">Centurion Locker System</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -27,7 +64,6 @@ if (session_status() === PHP_SESSION_NONE) {
 
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link" href="/index.php">Home</a></li>
 
         <?php if (isset($_SESSION['parentID'])): ?>
           <!-- Logged-in Parent -->
@@ -45,8 +81,8 @@ if (session_status() === PHP_SESSION_NONE) {
           <!-- Logged-in Admin -->
           <li class="nav-item"><a class="nav-link" href="/centurion-locker-website/admin/locker_management.php">Locker Management</a></li>
           <li class="nav-item"><a class="nav-link" href="/centurion-locker-website/admin/admin_locker_report.php">MIS Reports</a></li>
-          <li class="nav-item"><a class="nav-link" href="/admin/admin_dashboard.php">Admin Dashboard</a></li>
-          <li class="nav-item"><a class="nav-link" href="/admin_logout.php">Logout</a></li>
+          <li class="nav-item"><a class="nav-link" href="/centurion-locker-website/admin/admin_dashboard.php">Admin Dashboard</a></li>
+          <li class="nav-item"><a class="nav-link" href="/centurion-locker-website/admin/admin_logout.php">Logout</a></li>
 
         <?php else: ?>
           <!-- Guest (Not logged in) -->

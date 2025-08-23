@@ -24,7 +24,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 VALUES ('$parentID', '$parentTitle', '$parentName', '$parentSurname', '$parentEmail', '$homeAddress', '$phoneNumber', '$password')";
 
         if ($conn->query($sql) === TRUE) {
-            $success = "Parent registered successfully!";
+            echo "
+                    <script>
+                        alert('Registration successful! You may now log in.');
+                        window.location.href = 'parent_login.php';
+                    </script>
+                ";
+                exit; 
         } else {
             $error = "Error: " . $conn->error;
         }
@@ -33,16 +39,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 
 
-<body class="bg-danger-subtle">
+<body class="bg-dark-subtle text-dark-emphasis">
     <div class="container">
-        <h2 class="text-center mb-4">Parent Registration</h2>
-        <?php if ($success): ?>
-            <div class="alert alert-success"><?= $success ?></div>
-        <?php elseif ($error): ?>
-            <div class="alert alert-danger"><?= $error ?></div>
+        <h2 class="text-center fw-bold mb-4">Parent Registration</h2>
+        <?php if ($error): ?>
+            <div class="alert alert-danger text-center"><?= $error ?></div>
         <?php endif; ?>
 
-        <form method="POST" class="row g-3" autocomplete="off">
+        <form method="POST" class="d-flex row" autocomplete="off">
             <div class="col-md-2">
                 <label class="form-label">Title</label>
                 <select name="parentTitle" class="form-select" required>
