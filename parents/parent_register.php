@@ -39,9 +39,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 
 
-<body class="bg-dark-subtle text-dark-emphasis">
+<body style="font-family: monospace, sans-serif; font-size: 20px;
+    background: rgb(222,240,243); color: #5585b5;">
     <div class="container">
-        <h2 class="text-center fw-bold mb-4">Parent Registration</h2>
+        <h2 class="text-center" style="margin: 50px auto; font-size: 40px;">Parent Registration</h2>
         <?php if ($error): ?>
             <div class="alert alert-danger text-center"><?= $error ?></div>
         <?php endif; ?>
@@ -86,7 +87,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="password" name="password" class="form-control" minlength="6" required autocomplete="new-password">
             </div>
             <div class="d-grid">
-                <button class="btn mt-4" style="background-color: #a0005d; color: #f8d7da;" type="submit">Register</button>
+                <button class="btn mt-4" style="background-color: #5585b5; color: #bbe4e9; font-size: 20px;margin-bottom: 20px;" type="submit">Register</button>
             </div>
         </form>
     </div>

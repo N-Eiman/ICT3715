@@ -25,27 +25,18 @@ include('include/db_connect.php');
       }
 
       body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        min-height: 100vh;
+        font-family: monospace, sans-serif;
+    background: rgba(121, 194, 208, 0.5);
+
+        /* Keep text readable */
+        color: #5585b5;
         display: flex;
         flex-direction: column;
-        background: url('images/locker.jpg') no-repeat center center/cover;
-        position: relative;
-        color: #fff;
-      }
-
-      /* Overlay for readability */
-      body::before {
-        content: "";
-        position: absolute;
-        top: 0; left: 0;
-        width: 100%; height: 100%;
-        background: rgba(0, 0, 0, 0.4);
-        z-index: 0;
+        min-height: 100vh;
       }
 
       nav.navbar {
-        background: rgba(160, 0, 93, 0.9);
+        background: #5585b5;
         backdrop-filter: blur(4px);
         padding: 0.8rem 1rem;
         z-index: 2;
@@ -53,11 +44,11 @@ include('include/db_connect.php');
 
       nav.navbar .navbar-brand {
         font-weight: 600;
-        color: #fff;
+        color: #bbe4e9;
       }
 
       nav.navbar .nav-link {
-        color: #f8d7da;
+        color: #bbe4e9;
         transition: color 0.3s ease;
       }
 
@@ -76,30 +67,34 @@ include('include/db_connect.php');
       }
 
       .content-box {
-        background: rgba(255, 255, 255, 0.1);
-        padding: 30px;
+        background: rgba(255, 255, 255, 0.5);
+        padding: 30px; 
         border-radius: 12px;
         backdrop-filter: blur(6px);
         max-width: 650px;
+    
         text-align: center;
         box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        color: #5585b5;
       }
 
       .content-box h2 {
-        font-size: 1.8rem;
+        font-size: 35px;
         margin-bottom: 15px;
-        color: #ffd700;
+        color: #5585b5;
+        
       }
 
       .content-box p {
-        font-size: 1rem;
+        font-size: 20px;
         margin-bottom: 25px;
-        color: #f1f1f1;
+        color: #5585b1;
       }
 
       .btn-custom {
-        background: #ffd700;
-        color: #333;
+        background: #5585b5;
+        color: #bbe4e9;
+        font-size: 20px;
         font-weight: 600;
         padding: 10px 20px;
         border-radius: 8px;
@@ -109,12 +104,13 @@ include('include/db_connect.php');
       }
 
       .btn-custom:hover {
-        background: #ffcc00;
+        background: #ffd700;
         transform: translateY(-2px);
       }
 
       footer {
-        background: rgba(160, 0, 93, 0.9);
+        background: #5585b5;
+        color: #bbe4e9;
         text-align: center;
         padding: 10px;
         font-size: 0.9rem;

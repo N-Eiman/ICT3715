@@ -22,17 +22,18 @@ if (!isset($_SESSION['adminID'])) {
             box-sizing: border-box;
         }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            background: #f4f6f9;
-        }
+       body {
+    min-height: 100vh;
+    margin: 0;
+     font-family: monospace, sans-serif;
+    background: #bbe4e9;
+    color: #5585b5;
+}
+
 
         /* ===== Navbar ===== */
         nav.navbar {
-            background: rgba(160, 0, 93, 0.9);
+            background: #5585b5;
             backdrop-filter: blur(4px);
             padding: 0.8rem 1rem;
             z-index: 2;
@@ -40,33 +41,36 @@ if (!isset($_SESSION['adminID'])) {
 
         nav.navbar .navbar-brand {
             font-weight: 600;
-            color: #fff;
+            color: #bbe4e9;
         }
 
         nav.navbar .nav-link {
-            color: #f8d7da;
+            color: #bbe4e9;
             transition: color 0.3s ease;
         }
 
         nav.navbar .nav-link:hover {
-            color: #ffd700;
+            color: rgba(255, 215, 0, 1);
         }
 
         /* ===== Dashboard Header ===== */
         .dashboard-header {
-            background: linear-gradient(135deg, #a0005d, #6b003c);
-            color: white;
+            background: rgba(255, 255, 255, 0.5);
+            color: #5585b5;
             padding: 2rem;
             border-radius: 8px;
             margin-bottom: 2rem;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            font-size: 20px;
         }
 
         .dashboard-header h2 {
             margin: 0;
-            font-size: 1.8rem;
-            font-weight: 600;
+            font-size: 45px;
+            font-weight: 900;
         }
+
+        
 
         /* ===== Cards ===== */
         .card {
@@ -74,6 +78,13 @@ if (!isset($_SESSION['adminID'])) {
             border-radius: 12px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
+            margin: 50px auto 10px; 
+            color: #5585b5; 
+            font-size: 20px; 
+            background: rgba(255, 255, 255, 0.5); 
+            backdrop-filter: blur(6px); 
+            padding: 20px; 
+           
         }
 
         .card-hover:hover {
@@ -82,20 +93,30 @@ if (!isset($_SESSION['adminID'])) {
         }
 
         .card-header {
-            font-weight: 600;
-            background: #ffd700;
             border-bottom: none;
-            color: #333;
+            color: #5585b5;
+            font-size: 20px;
+             background: rgba(255, 255, 255, 0.5);
         }
 
+        .btn {
+            max-width: 300px;
+            font-size: 20px;
+        }
+
+        .btn:hover {
+            max-width: 300px;
+            background:  rgba(255, 215, 0, 0.5);
+        }
+      
         /* ===== Footer ===== */
         footer {
-            background: rgba(160, 0, 93, 0.9);
+            background: #5585b5;
             text-align: center;
             padding: 10px;
             font-size: 0.9rem;
-            margin-top: auto;
-            color: white;
+            margin-top: 135px;
+            color: #bbe4e9;
         }
     </style>
 </head>
@@ -109,9 +130,12 @@ if (!isset($_SESSION['adminID'])) {
 
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto">
-            <li class="nav-item"><a class="nav-link" href="admin_dashboard.php">Dashboard</a></li>
-            <li class="nav-item"><a class="nav-link" href="admin_locker_report.php">Locker Reports</a></li>
-            <li class="nav-item"><a class="nav-link" href="admin_logout.php">Logout</a></li>
+          <li class="nav-item"><a class="nav-link" href="/centurion-locker-website/admin/admin_locker_report.php">MIS Reports</a></li>
+          <li class="nav-item"><a class="nav-link" href="/centurion-locker-website/admin/admin_dashboard.php">Admin Dashboard</a></li>
+           <li class="nav-item"><a class="nav-link" href="/centurion-locker-website/admin/student_registration.php">Registration</a></li>
+          <li class="nav-item"><a class="nav-link" href="/centurion-locker-website/admin/locker_application.php">Locker Management</a></li>
+            <li class="nav-item"><a class="nav-link" href="/centurion-locker-website/admin/verify_payments.php">Verify</a></li>
+           <li class="nav-item"><a class="nav-link" href="/centurion-locker-website/admin/admin_logout.php">Logout</a></li>
           </ul>
         </div>
       </div>
@@ -124,13 +148,14 @@ if (!isset($_SESSION['adminID'])) {
         </div>
 
         <div class="row">
-            <!-- Example Card -->
+            
             <div class="col-md-4">
                 <div class="card card-hover">
                     <div class="card-header">Locker Management</div>
                     <div class="card-body">
-                        <p>View and manage locker allocations and availability.</p>
-                        <a href="admin_locker_report.php" class="btn btn-warning">View Report</a>
+                        <p>View and manage locker allocations.</p>
+                        <a href="admin_locker_report.php" class="btn btn-primary">View</a>
+                        <a href="locker_application.php" class="btn btn-primary">Manage</a>
                     </div>
                 </div>
             </div>
@@ -140,8 +165,10 @@ if (!isset($_SESSION['adminID'])) {
                 <div class="card card-hover">
                     <div class="card-header">Parent Accounts</div>
                     <div class="card-body">
-                        <p>Manage registered parent accounts and their linked students.</p>
-                        <a href="#" class="btn btn-warning">Manage Parents</a>
+                        <p>Register Students and Apply on their behalf.</p>
+                        <a href="student_registration.php" class="btn btn-primary">Register For Students</a>
+                         
+
                     </div>
                 </div>
             </div>
@@ -152,7 +179,8 @@ if (!isset($_SESSION['adminID'])) {
                     <div class="card-header">Payments</div>
                     <div class="card-body">
                         <p>Review and update payment statuses for bookings.</p>
-                        <a href="#" class="btn btn-warning">View Payments</a>
+                        <a href="verify_payments.php" class="btn btn-primary">Verify Payments</a>
+
                     </div>
                 </div>
             </div>

@@ -69,33 +69,8 @@ $escapedGrades = array_map(function($g) use ($conn) {
 $gradeListSQL = implode(',', $escapedGrades);
 $gradeDisplay = implode(', ', $selectedGrades);
 
-// -----------------------------
-// Summary + report queries (respecting filters)
-// -----------------------------
 
-
-// //-- 1️⃣ Add the studentSchoolNumber column to bookings
-// ALTER TABLE bookings 
-// ADD COLUMN studentSchoolNumber VARCHAR(50) AFTER parentID;
-
-// -- 2️⃣ Populate it by linking via parentID
-// UPDATE bookings b
-// JOIN (
-//     SELECT parentID, MIN(studentSchoolNumber) AS studentSchoolNumber
-//     FROM student
-//     GROUP BY parentID
-// ) s ON b.parentID = s.parentID
-// SET b.studentSchoolNumber = s.studentSchoolNumber;
-
-// -- 3️⃣ Make sure there are no NULLs left
-// UPDATE bookings 
-// SET studentSchoolNumber = 'UNKNOWN' 
-// WHERE studentSchoolNumber IS NULL;
-
-// -- 4️⃣ Optional: Make it NOT NULL if you want to enforce it
-// ALTER TABLE bookings 
-// MODIFY studentSchoolNumber VARCHAR(50) NOT NULL;
-// // Allocated lockers count (lockers assigned in bookings as lockersID NOT NULL)
+// Allocated lockers count (lockers assigned in bookings as lockersID NOT NULL)
 
 $allocatedQuery = "
     SELECT COUNT(*) AS allocatedCount
@@ -182,25 +157,15 @@ while ($row = mysqli_fetch_assoc($gradeAllocations)) {
 
 ?>
 <style>
-/* Ensure body covers the viewport and sets background */
 body {
-    position: relative;       /* allows overlay positioning */
-    min-height: 100vh;        /* ensure full viewport coverage */
-    background: url('../images/locker.jpg') no-repeat center center fixed;
-    background-size: cover;
+    min-height: 100vh;
+    margin: 0;
+    font-family: monospace, sans-serif;
+    background: #bbe4e9;
+    color: #5585b5;
+    
 }
 
-/* Full-page overlay */
-body::before {
-    content: "";
-    position: fixed;          /* covers viewport even when scrolling */
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.4); /* adjust opacity as needed */
-    z-index: 1;               /* sits above background but below content */
-}
 
 /* Ensure main content sits above overlay */
 .container, .report-card, nav.navbar, footer {
@@ -212,7 +177,7 @@ body::before {
 .report-card {
     position: relative;       /* above overlay */
     z-index: 2;
-    background: rgba(255,255,255,0.95);
+    background: rgba(255,255,255,0.5);
     border-radius: 10px;
     padding: 20px;
     margin-bottom: 30px;
@@ -236,21 +201,16 @@ canvas {
     
 }
 
-/* Keep nav and footer above overlay */
-nav.navbar, footer {
+ footer {
     z-index: 3;
 }
 </style>
 
 <div class="container mt-4">
      <!-- Dashboard Title -->
-  <h1 class="text-center fw-bold mb-3" style="color: #ffd700;">
+  <h1 class="text-center fw-bold mb-3" style="color: #5585b5;">
     Locker MIS Dashboard — <?= htmlspecialchars($gradeDisplay) ?> (<?= htmlspecialchars($startDate) ?> → <?= htmlspecialchars($endDate) ?>)
   </h1>
-  <div class="report-card mb-4 text-center" style="color: #fff;">
-    
-    <canvas id="gradeChart" width="400" height="400"></canvas>
-  </div>
 
  
   <!-- Filter Form -->
@@ -340,7 +300,7 @@ nav.navbar, footer {
     <h5>Allocated Lockers — Detailed list</h5>
     <div class="scrollable-table">
       <table class="table table-sm table-striped table-bordered">
-        <thead class="table-primary">
+        <thead class="table-dark">
           <tr>
             <th>Student #</th>
             <th>Name</th>
@@ -367,33 +327,14 @@ nav.navbar, footer {
   </div>
 </div>
 
-<!-- Chart.js Script -->
+<!-- Load Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- Load Chart.js Data Labels plugin -->
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+
+<!-- Locker Allocation chart code-->
 <script>
-const gradeCtx = document.getElementById('gradeChart').getContext('2d');
-new Chart(gradeCtx, {
-    type: 'pie',
-    data: {
-        labels: <?= json_encode($gradeLabels) ?>,
-        datasets: [{
-            data: <?= json_encode($gradeCounts) ?>,
-            backgroundColor: ['#2196F3', '#4CAF50', '#FFC107', '#FF5722', '#9C27B0'],
-            borderColor: ['#1976D2', '#2E7D32', '#FFA000', '#E64A19', '#7B1FA2'],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: { position: 'bottom' },
-            title: { display: true, text: 'Locker Allocation by Grade (8–12)',
-              color: '#ffd700',   // title color
-                font: { size: 18, weight: 'bold' }
-             }
-        }
-    }
-});
 
 const lockerCtx = document.getElementById('lockerChartFiltered').getContext('2d');
 new Chart(lockerCtx, {
@@ -402,8 +343,8 @@ new Chart(lockerCtx, {
         labels: ['Allocated', 'Awaiting'],
         datasets: [{
             data: [<?= intval($allocatedCount) ?>, <?= intval($awaitingCount) ?>],
-            backgroundColor: ['#2196F3', '#9C27B0'],
-            borderColor: ['#1976D2', '#7B1FA2'],
+            backgroundColor: ['#2196F3', '#46676bff'],
+            borderColor: ['#1976D2', '#2c3e40ff'],
             borderWidth: 1
         }]
     },
@@ -412,13 +353,25 @@ new Chart(lockerCtx, {
         maintainAspectRatio: false,
         plugins: {
             legend: { position: 'bottom' },
-            title: { display: true, text: 'Locker Allocation (Filtered Grades)',
-              color: '#ffd700',   // title color
-                font: { size: 18, weight: 'bold' }
-             }
+            title: { 
+              display: true, 
+              text: 'Locker Allocation (Filtered Grades)',
+              color: '#333331',
+              font: { size: 18, weight: 'bold' }
+            },
+            datalabels: {
+                color: '#333331',
+                font: { weight: 'bold', size: 14 },
+                formatter: (value, context) => {
+                    const total = context.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                    return ((value / total) * 100).toFixed(1) + '%';
+                }
+            }
         }
-    }
+    },
+    plugins: [ChartDataLabels]
 });
 </script>
+
 
 <?php include '../include/footer.php'; ?>

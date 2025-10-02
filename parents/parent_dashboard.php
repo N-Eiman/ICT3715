@@ -1,4 +1,4 @@
-<?php
+<?php 
 session_start();
 include('../include/header.php');
 include('../include/db_connect.php');
@@ -8,14 +8,14 @@ if (!isset($_SESSION['parentID'])) {
     exit;
 }
 
-$parentID = $_SESSION['parentID'];
+$parentID   = $_SESSION['parentID'];
 $parentName = $_SESSION['parentName'] ?? 'Parent';
 
 // Handle student registration
 if (isset($_POST['addStudent'])) {
-    $name = $_POST['studentName'];
-    $surname = $_POST['studentSurname'];
-    $grade = $_POST['studentGrade'];
+    $name         = $_POST['studentName'];
+    $surname      = $_POST['studentSurname'];
+    $grade        = $_POST['studentGrade'];
     $schoolNumber = $_POST['studentSchoolNumber'];
 
     $check = $conn->query("SELECT * FROM student WHERE studentSchoolNumber = '$schoolNumber'");
@@ -33,7 +33,8 @@ if (isset($_POST['addStudent'])) {
 $students = $conn->query("SELECT * FROM student WHERE parentID = '$parentID'");
 ?>
 
-<body class="bg-light">
+<body style="font-family: monospace, sans-serif;
+    background: #bbe4e9; color: #5585b5;">
 <div class="container py-4">
     <h3 class="text-center fw-bold mb-4">Welcome, <?= htmlspecialchars($parentName) ?></h3>
 
@@ -64,7 +65,7 @@ $students = $conn->query("SELECT * FROM student WHERE parentID = '$parentID'");
             <input type="text" name="studentSchoolNumber" class="form-control" required maxlength="6">
         </div>
         <div class="col-12 text-center">
-            <button type="submit" name="addStudent" class="btn btn-success">Add Student</button>
+            <button type="submit" name="addStudent" class="btn btn-primary">Add Student</button>
         </div>
     </form>
 
@@ -83,54 +84,39 @@ $students = $conn->query("SELECT * FROM student WHERE parentID = '$parentID'");
         <?php while ($row = $students->fetch_assoc()): ?>
             <?php
                 $studentID = $row['studentSchoolNumber'];
-                $fullName = $row['studentName'] . ' ' . $row['studentSurname'];
-                $grade = $row['studentGrade'];
-                $statusLabel = "";
-                $actionHTML = "";
+                $fullName  = $row['studentName'] . ' ' . $row['studentSurname'];
+                $grade     = $row['studentGrade'];
 
-                // Step 1: Get recordID from adminofficer (if any)
-                $recordRow = $conn->query("SELECT recordID FROM adminofficer WHERE studentSchoolNumber = '$studentID' LIMIT 1")->fetch_assoc();
-                $recordID = $recordRow['recordID'] ?? null;
+                $statusLabel = "<span class='badge bg-secondary'>Not Applied</span>";
+                $actionHTML  = "<a href='apply_locker.php?student=$studentID' class='btn btn-sm btn-primary'>Apply</a>";
 
-                // Step 2: Check if student is booked
-                $bookingRow = $conn->query("SELECT * FROM bookings WHERE recordID = '$studentID'")->fetch_assoc();
-                $isBooked = $bookingRow ? true : false;
+                // --- Check bookings ---
+                $bookingRow = $conn->query("SELECT * FROM bookings WHERE studentSchoolNumber = '$studentID'")->fetch_assoc();
+                if ($bookingRow) {
+                    $lockerID = $bookingRow['lockersID'];
+                    $payment  = $conn->query("SELECT paymentStatus FROM payments WHERE studentSchoolNumber = '$studentID'")
+                                     ->fetch_assoc()['paymentStatus'] ?? 'Pending';
 
-                // Step 3: If booked, check payment
-                if ($isBooked) {
-                    $paymentRow = $conn->query("SELECT paymentStatus FROM payments WHERE studentSchoolNumber = '$studentID'")->fetch_assoc();
-                    $paymentStatus = $paymentRow['paymentStatus'] ?? 'Pending';
-
-                    if ($paymentStatus === "Paid") {
-                        $statusLabel = "<span class='badge bg-success'>Paid</span>";
+                    if ($lockerID) {
+                        $statusLabel = "<span class='badge bg-primary'>Allocated (Locker $lockerID)</span>";
+                    } elseif ($payment === "Paid") {
+                        $statusLabel = "<span class='badge bg-primary'>Paid - Awaiting Allocation</span>";
                     } else {
-                        $statusLabel = "<span class='badge bg-info text-dark'>Booked - Awaiting Payment</span>";
+                        $statusLabel = "<span class='badge bg-primary text-light'>Booked - Awaiting Allocation</span>";
                     }
+
                     $actionHTML = "<a href='cancel_application.php?student=$studentID' class='btn btn-sm btn-danger'>Cancel</a>";
                 }
 
-                // Step 4: If not booked, check waiting list
-                elseif ($recordID) {
-                    $waitlist = $conn->query("SELECT * FROM waitinglist WHERE recordID = '$recordID'");
-                    if ($waitlist->num_rows > 0) {
-                        $statusLabel = "<span class='badge bg-warning text-dark'>Waiting List</span>";
-                        $actionHTML = "<a href='cancel_application.php?student=$studentID' class='btn btn-sm btn-danger'>Cancel</a>";
-                    } else {
-                        // Fallback if recordID exists but not on waitlist or booking
-                        $statusLabel = "<span class='badge bg-secondary'>Pending Review</span>";
-                        $actionHTML = "<a href='cancel_application.php?student=$studentID' class='btn btn-sm btn-danger'>Cancel</a>";
-                    }
-                }
-
-                // Step 5: Not applied at all
-                else {
-                    $statusLabel = "<span class='badge bg-secondary'>Not Applied</span>";
-                    $actionHTML = "<a href='apply_locker.php?student=$studentID' class='btn btn-sm btn-primary'>Apply</a>";
+                // --- Check waiting list if no booking ---
+                elseif ($conn->query("SELECT * FROM waiting_list WHERE studentSchoolNumber = '$studentID'")->num_rows > 0) {
+                    $statusLabel = "<span class='badge bg-warning text-dark'>Waitlisted</span>";
+                    $actionHTML  = "<a href='cancel_application.php?student=$studentID' class='btn btn-sm btn-danger'>Cancel</a>";
                 }
             ?>
             <tr>
-                <td><?= $fullName ?></td>
-                <td><?= $grade ?></td>
+                <td><?= htmlspecialchars($fullName) ?></td>
+                <td><?= htmlspecialchars($grade) ?></td>
                 <td><?= $statusLabel ?></td>
                 <td><?= $actionHTML ?></td>
             </tr>
@@ -139,7 +125,7 @@ $students = $conn->query("SELECT * FROM student WHERE parentID = '$parentID'");
     </table>
 
     <div class="text-end">
-        <a href="logout.php" class="btn btn-secondary">Logout</a>
+        <a href="logout.php" class="btn btn-primary">Logout</a>
     </div>
 </div>
 

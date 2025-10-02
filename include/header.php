@@ -14,27 +14,29 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>Book A Locker</title>
     <style>
-      body::before {
-        content: "";
-        position: absolute;
-        top: 0; left: 0;
-        width: 100%; height: 100%;
-        background: rgba(0, 0, 0, 0.4);
-        z-index: 0;
-      }
+      body {
+    min-height: 100vh;
+    margin: 0;
+     font-family: monospace, sans-serif;
+    background-image: #79c2d0;
+
+    /* Keep text readable */
+    color: #333;
+}
+
       nav.navbar {
-        background: rgba(160, 0, 93, 0.9);
+        background: #5585b5;
         backdrop-filter: blur(4px);
         padding: 0.8rem 1rem;
         z-index: 2;
       }
       nav.navbar .navbar-brand {
         font-weight: 600;
-        color: #fff;
+        color: #bbe4e9;
       }
 
       nav.navbar .nav-link {
-        color: #f8d7da;
+        color: #bbe4e9;
         transition: color 0.3s ease;
       }
 
@@ -42,7 +44,7 @@
         color: #ffd700;
       }
       footer {
-        background: rgba(160, 0, 93, 0.9);
+        background: #5585b5;
         text-align: center;
         padding: 10px;
         font-size: 0.9rem;
@@ -67,11 +69,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
         <?php if (isset($_SESSION['parentID'])): ?>
           <!-- Logged-in Parent -->
-          <li class="nav-item"><a class="nav-link" href="/centurion-locker-website/students/locker_availability.php">Locker Availability</a></li>
-          <li class="nav-item"><a class="nav-link" href="/centurion-locker-website/parents/parent_dashboard.php">Dashboard</a></li>
-          <li class="nav-item"><a class="nav-link" href="/centurion-locker-website/parents/apply_locker.php">Locker Application</a></li>
-          <li class="nav-item"><a class="nav-link disabled" aria-disabled="true" href="/centurion-locker-website/students/confirmation.php">Confirmation</a></li>
-          <li class="nav-item"><a class="nav-link" href="/centurion-locker-website/parents/auto_promote_waitlist.php">WaitListPromotion</a></li>
+          <li class="nav-item"><a class="nav-link" href="/centurion-locker-website/parents/parent_dashboard.php">Parent Dashboard</a></li>
           <li class="nav-item"><a class="nav-link" href="/centurion-locker-website/parents/cancel_application.php">Cancel Application</a></li>
           <li class="nav-item"><a class="nav-link" href="/centurion-locker-website/parents/logout.php">Logout</a></li>
           
@@ -79,9 +77,11 @@ if (session_status() === PHP_SESSION_NONE) {
 
         <?php elseif (isset($_SESSION['adminID'])): ?>
           <!-- Logged-in Admin -->
-          <li class="nav-item"><a class="nav-link" href="/centurion-locker-website/admin/locker_management.php">Locker Management</a></li>
           <li class="nav-item"><a class="nav-link" href="/centurion-locker-website/admin/admin_locker_report.php">MIS Reports</a></li>
           <li class="nav-item"><a class="nav-link" href="/centurion-locker-website/admin/admin_dashboard.php">Admin Dashboard</a></li>
+          <li class="nav-item"><a class="nav-link" href="/centurion-locker-website/admin/student_registration.php">Registration</a></li>
+          <li class="nav-item"><a class="nav-link" href="/centurion-locker-website/admin/locker_application.php">Locker Management</a></li>
+          <li class="nav-item"><a class="nav-link" href="/centurion-locker-website/admin/verify_payments.php">Verify</a></li>
           <li class="nav-item"><a class="nav-link" href="/centurion-locker-website/admin/admin_logout.php">Logout</a></li>
 
         <?php else: ?>
