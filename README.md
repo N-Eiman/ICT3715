@@ -59,8 +59,32 @@ A responsive and stylish HTML-based registration form that allows parents to boo
 
 ```
 📦 Locker Registration Project
-├── index.html         # Main HTML form
-├── locker.jpg         # Background image (ensure it's in the same directory)
+├── index.php         # Main php
+├── admin folder
+      ├── admin_dashboard.php
+      ├── admin_locker_report.php
+      ├── admin_login.php
+      ├── admin_logout.php
+      ├── locker_management.php
+├── images
+      ├── locker.jpg
+├── include folder
+      ├── db_connect.php
+      ├── header.php
+      ├── footer.php
+├── parents folder
+      ├── apply_locker.php
+      ├── cancel_application.php
+      ├── logout.php
+      ├── parent_dashboard.php
+      ├── parent_login.php
+      ├── parent_register.php
+├── PHPMailer-master
+    ├── .
+    ├── .
+
+
+
 ```
 
 ---
